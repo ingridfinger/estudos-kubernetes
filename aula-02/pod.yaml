@@ -1,0 +1,26 @@
+
+# Versão da API do Kubernetes utilizada para criar o recurso.
+# Pods fazem parte da API core, versão v1.
+apiVersion: v1
+
+# Tipo de recurso que queremos criar.
+# Neste caso, estamos declarando um Pod.
+kind: Pod
+
+# Metadados: informações utilizadas para identificar o recurso.
+metadata:
+  # Nome que será atribuído ao nosso Pod.
+  name: meu-primeiro-pod
+
+# Spec (Specification): descreve o estado desejado do recurso.
+spec:
+
+  # Lista os containers que serão executados dentro do Pod.
+  containers:
+
+    # Nome que identifica o container dentro do Pod.
+    - name: nginx
+
+      # Imagem utilizada para criar o container.
+      # O Docker Hub será consultado caso ela não esteja disponível localmente.
+      image: nginx:latest
