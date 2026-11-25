@@ -1,0 +1,41 @@
+# Define a versão da API do Kubernetes utilizada
+apiVersion: apps/v1
+
+# Informa que o recurso criado será um ReplicaSet
+kind: ReplicaSet
+
+# Metadados do ReplicaSet
+metadata:
+  # Nome utilizado para identificar o ReplicaSet
+  name: nginx-replicaset
+
+# Especificações de funcionamento do ReplicaSet
+spec:
+
+  # Quantidade desejada de Pods que devem permanecer em execução
+  replicas: 3
+
+  # Define como o ReplicaSet encontrará os Pods que deverá gerenciar
+  selector:
+    matchLabels:
+      # Seleciona Pods que possuam a Label app com o valor nginx
+      app: nginx
+
+  # Modelo utilizado para criar os Pods
+  template:
+
+    # Metadados dos Pods que serão criados
+    metadata:
+      labels:
+        # Adiciona a Label que corresponde ao Selector acima
+        app: nginx
+
+    # Especificações dos containers que estarão dentro dos Pods
+    spec:
+      containers:
+
+        # Configuração do container
+        - name: nginx
+
+          # Imagem utilizada para criar o container
+          image: nginx:latest
