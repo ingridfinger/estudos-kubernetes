@@ -1,0 +1,33 @@
+# Define a versão da API do Kubernetes utilizada
+apiVersion: apps/v1
+
+# Informa que o recurso criado será um Deployment
+kind: Deployment
+
+# Metadados do Deployment
+metadata:
+  name: nginx-deployment
+
+# Especificações de funcionamento do Deployment
+spec:
+  # Quantidade desejada de Pods
+  replicas: 3
+
+  # Define como o Deployment encontrará os Pods
+  selector:
+    matchLabels:
+      app: nginx
+
+  # Modelo utilizado para criar os Pods
+  template:
+    metadata:
+      labels:
+        app: nginx
+
+    # Configuração dos containers
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.28
+          ports:
+            - containerPort: 80
