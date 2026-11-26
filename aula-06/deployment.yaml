@@ -1,0 +1,71 @@
+# API utilizada para criar um Deployment
+apiVersion: apps/v1
+
+# Define o tipo de recurso
+kind: Deployment
+
+# Metadados do Deployment
+metadata:
+  # Nome do Deployment
+  name: nginx-config-demo
+
+spec:
+  # Quantidade desejada de Pods
+  replicas: 1
+
+  # Seleciona os Pods que pertencem ao Deployment
+  selector:
+    matchLabels:
+      app: nginx-config-demo
+
+  # Modelo utilizado para criar os Pods
+  template:
+    metadata:
+      # Labels aplicadas aos Pods
+      labels:
+        app: nginx-config-demo
+
+    spec:
+      # Configuração dos containers do Pod
+      containers:
+        - name: nginx
+
+          # Imagem utilizada pelo container
+          image: nginx:1.28
+
+          # Porta utilizada pela aplicação dentro do container
+          ports:
+            - containerPort: 80
+
+          # Carrega as configurações como variáveis de ambiente
+          envFrom:
+            # Variáveis provenientes do ConfigMap
+            - configMapRef:
+                name: configuracoes-app
+
+            # Variáveis provenientes do Secret
+            - secretRef:
+                name: credenciais-app
+
+          # Define onde os volumes serão montados dentro do container
+          volumeMounts:
+            # Monta os arquivos do ConfigMap neste diretório
+            - name: config-volume
+              mountPath: /etc/app-config
+
+            # Monta os arquivos do Secret neste diretório
+            - name: secret-volume
+              mountPath: /etc/app-secret
+              readOnly: true
+
+      # Define os volumes disponíveis para o Pod
+      volumes:
+        # Volume baseado no ConfigMap
+        - name: config-volume
+          configMap:
+            name: configuracoes-app
+
+        # Volume baseado no Secret
+        - name: secret-volume
+          secret:
+            secretName: credenciais-app

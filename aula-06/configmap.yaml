@@ -1,0 +1,24 @@
+# API utilizada para criar o recurso ConfigMap
+apiVersion: v1
+
+# Define o tipo de recurso que será criado
+kind: ConfigMap
+
+# Metadados do ConfigMap
+metadata:
+  # Nome utilizado para identificar o ConfigMap no cluster
+  name: configuracoes-app
+
+# Dados de configuração armazenados em pares chave-valor
+data:
+  # Endereço do servidor do banco de dados
+  DB_HOST: mysql
+
+  # Porta utilizada pelo banco de dados
+  DB_PORT: "3306"
+
+  # Nome do banco de dados que será utilizado
+  DB_NAME: estudos_docker
+
+  # Ambiente em que a aplicação está sendo executada
+  AMBIENTE: desenvolvimento
