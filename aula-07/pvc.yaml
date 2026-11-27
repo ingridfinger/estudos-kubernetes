@@ -1,0 +1,20 @@
+# Solicita armazenamento ao Kubernetes
+apiVersion: v1
+kind: PersistentVolumeClaim
+
+metadata:
+  # Nome da solicitação
+  name: meu-pvc
+
+spec:
+  # Solicita 1 GiB de armazenamento
+  resources:
+    requests:
+      storage: 1Gi
+
+  # Permite leitura e escrita por um único Node
+  accessModes:
+    - ReadWriteOnce
+
+  # Utiliza a StorageClass padrão do cluster
+  storageClassName: standard
