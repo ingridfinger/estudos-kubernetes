@@ -1,0 +1,23 @@
+# Service para expor os Pods do Deployment
+apiVersion: v1
+kind: Service
+
+metadata:
+  # Nome do Service
+  name: nginx-probes-service
+
+spec:
+  # Disponibiliza o Service dentro do cluster
+  type: ClusterIP
+
+  # Seleciona os Pods que possuem esta label
+  selector:
+    app: nginx-probes
+
+  ports:
+    - protocol: TCP
+      # Porta disponibilizada pelo Service
+      port: 80
+
+      # Porta utilizada pelo Nginx nos containers
+      targetPort: 80

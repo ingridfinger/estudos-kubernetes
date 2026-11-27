@@ -1,0 +1,54 @@
+# Deployment para testar a Readiness Probe
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  # Nome do Deployment
+  name: nginx-probes
+
+spec:
+  # Mantém duas réplicas da aplicação
+  replicas: 2
+
+  # Seleciona os Pods que pertencem ao Deployment
+  selector:
+    matchLabels:
+      app: nginx-probes
+
+  # Modelo utilizado para criar os Pods
+  template:
+    metadata:
+      # Label utilizada pelo selector
+      labels:
+        app: nginx-probes
+
+    spec:
+      containers:
+        - name: nginx
+          # Imagem utilizada pelo container
+          image: nginx:1.28
+
+          # Porta utilizada pelo Nginx
+          ports:
+            - containerPort: 80
+
+          # Verifica se a aplicação terminou de iniciar
+          startupProbe:
+            httpGet:
+              # Realiza uma requisição para a página inicial
+              path: /
+              port: 80
+            # Intervalo entre as verificações
+            periodSeconds: 5
+            # Quantidade de falhas consecutivas permitidas
+            failureThreshold: 30
+
+          # Verifica se a aplicação está pronta para receber tráfego
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            # Realiza uma verificação a cada 5 segundos
+            periodSeconds: 5
+            # Considera a Probe malsucedida após 3 falhas consecutivas
+            failureThreshold: 3
